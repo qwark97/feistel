@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-import hashlib
 import os
 import argparse
 from pkcs import PKCS7
 from feistel import FeistelNetwork
 from modes import ECB, CBC, CTR
-from iterators import file_block_iterator, eof_signal_iterator
+from iterators import file_block_iterator
 
 """
 The Mike Encryption Standard
