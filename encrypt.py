@@ -6,6 +6,7 @@ from pkcs import PKCS7
 from feistel import FeistelNetwork
 from modes import ECB, CBC, CTR
 from iterators import file_block_iterator
+from read_key import read_key_file
 
 """
 The Mike Encryption Standard
@@ -21,12 +22,16 @@ def main():
     parser.add_argument('-m', '--mode', type=str, default='ECB')
     parser.add_argument('-i', '--iv', type=str, help='Initialization Vector, used for CBC mode')
     parser.add_argument('-n', '--nonce', type=str, help='Nonce to use for CTR mode')
+    parser.add_argument('-k', '--key_file', type=str, default='', help='Path to the key file')
     parser.add_argument("input_file")
     parser.add_argument("output_file")
     args = parser.parse_args()
 
-    key = input("Enter {} key: ".format("encryption" if args.encrypt else "decryption"))
-    key = key.encode("UTF-8")
+    if args.key_file:
+        key = read_key_file(args.key_file)
+    else:
+        key = input("Enter {} key: ".format("encryption" if args.encrypt else "decryption"))
+        key = key.encode("UTF-8")
 
     cipher = FeistelNetwork(key)
 
